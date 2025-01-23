@@ -19,7 +19,6 @@ class DemoControllerTest extends BaseControllerTest {
 
   @Test
   public void testGetUserById() {
-    RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
     String id1 = UUID.randomUUID().toString();
     String id2 = UUID.randomUUID().toString();
     String name1 = "name1";
