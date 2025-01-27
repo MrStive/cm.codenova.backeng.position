@@ -1,3 +1,5 @@
+import com.diffplug.spotless.extra.wtp.EclipseWtpFormatterStep
+
 buildscript {
 	dependencies {
 		classpath("org.openapitools:openapi-generator-gradle-plugin:7.1.0")
@@ -39,9 +41,11 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation('org.eclipse.persistence:eclipselink:2.7.7')
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'junit:junit:4.13.1'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -51,7 +55,8 @@ dependencies {
 	implementation("org.mapstruct:mapstruct:${mapstructVersion}")
 	annotationProcessor("org.mapstruct:mapstruct-processor:${mapstructVersion}")
 	testAnnotationProcessor("org.mapstruct:mapstruct-processor:${mapstructVersion}")
-
+	implementation 'javax.money:money-api:1.1'
+	implementation 'org.javamoney:moneta:1.4.2'
 	//postgres
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.postgresql:postgresql'
@@ -60,7 +65,8 @@ dependencies {
 	implementation('io.swagger:swagger-annotations:1.6.11')
 	implementation('org.openapitools:jackson-databind-nullable:0.2.6')
 	implementation('org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0')
-//test assured
+
+	//REST ASSURED
 	testImplementation 'io.rest-assured:rest-assured:5.5.0'
 }
 
@@ -72,16 +78,16 @@ openApiGenerate {
 	apiPackage = "cm.codenova.backeng.position.api"
 	modelPackage = "cm.codenova.backeng.position.demo.dto"
 	configOptions = [
-			dateLibrary         : "java8-localdatetime",
-			library             : "spring-boot",
-			interfaceOnly       : "true",
-			useTags             : "true",
-			skipDefaultInterface: "true",
-			useSpringBoot3      : "true",
-			openApiNullable     : "false"
+		dateLibrary         : "java8-localdatetime",
+		library             : "spring-boot",
+		interfaceOnly       : "true",
+		useTags             : "true",
+		skipDefaultInterface: "true",
+		useSpringBoot3      : "true",
+		openApiNullable     : "false"
 	]
 	typeMappings = [
-			time: "java.time.LocalTime",
+		time: "java.time.LocalTime",
 	]
 }
 
@@ -89,7 +95,7 @@ sourceSets.main.java.srcDir layout.buildDirectory.file("generated/sources/openap
 
 compileJava.dependsOn(
 		tasks.openApiGenerate
-)
+		)
 
 tasks.named('test') {
 	useJUnitPlatform()

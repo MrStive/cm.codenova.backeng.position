@@ -1,10 +1,10 @@
+---
 spring:
   datasource:
-    url: "jdbc:postgresql://localhost:5432/cm_domeni_demo"
+    url: "jdbc:postgresql://localhost:5432/cm_codenova.backeng.position_db"
     username: "postgres"
     password: "domenisteve@gmail.com"
-
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: "update"
     show-sql: true

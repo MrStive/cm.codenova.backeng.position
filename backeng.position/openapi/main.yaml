@@ -1,45 +1,97 @@
-openapi: 3.0.3
+---
+openapi: "3.0.3"
 info:
-  title: position openApi
-  description: Demo use open APi for generate REST API endpoints
-  version: 0.0.1
+  title: "position openApi"
+  description: "Demo use open APi for generate REST API endpoints"
+  version: "0.0.1"
 servers:
-  - url: 'https'
-  - url: 'http'
+- url: "https"
+- url: "http"
 paths:
   /demo:
     get:
       tags:
-        - Demo
-      summary: Demo Summary
-      description: Demo Description
-      operationId: fetchAllDemo
-      security:
-        - oAuth:
-            - demo:read:all
+      - "Demo"
+      summary: "Demo Summary"
+      description: "Demo Description"
+      operationId: "fetchAllDemo"
       parameters:
-        - name: fieldsToExtractCode
-          in: query
-          required: true
-          schema:
-            type: string
-          description: specify the fields that will be present on the response
+      - name: "fieldsToExtractCode"
+        in: "query"
+        required: true
+        schema:
+          type: "string"
+        description: "specify the fields that will be present on the response"
       responses:
-        200:
-          description: successful operation
+        "200":
+          description: "successful operation"
           content:
             application/json:
               schema:
-                type: array
+                type: "array"
                 items:
-                  $ref: '#/components/schemas/DemoDTO'
+                  $ref: "#/components/schemas/DemoDTO"
+  /position:
+    post:
+      tags:
+      - "Position"
+      summary: "create a position"
+      description: "create a position"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: "#/components/schemas/PositionDTO"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                type: "string"
+                format: "uuid"
 components:
   schemas:
     DemoDTO:
-      type: object
+      type: "object"
       properties:
         id:
-          type: string
-          format: uuid
+          type: "string"
+          format: "uuid"
         name:
-          type: string
+          type: "string"
+    PositionDTO:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+          format: "uuid"
+        name:
+          type: "string"
+        address:
+          $ref: "#/components/schemas/AddressDTO"
+        costPerHour:
+          $ref: "#/components/schemas/MoneyDTO"
+        status:
+          $ref: "#/components/schemas/StatusDTO"
+    AddressDTO:
+      type: "object"
+      properties:
+        city:
+          type: "string"
+        country:
+          type: "string"
+        district:
+          type: "string"
+    MoneyDTO:
+      type: "object"
+      properties:
+        value:
+          type: "number"
+        currency:
+          type: "string"
+    StatusDTO:
+      enum:
+      - "AVAILABLE"
+      - "UNAVAILABLE"
